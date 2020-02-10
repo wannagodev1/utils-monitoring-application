@@ -1,0 +1,6 @@
+# Maven
+log/
+target/
+
+outdated-dependencies.txt
+cloudbuild.yaml

@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<configuration>
+  <include resource="org/springframework/boot/logging/logback/base.xml"/>
+
+  <springProfile name="devgcp">
+    <appender name="GELF" class="biz.paluch.logging.gelf.logback.GelfLogbackAppender">
+      <param name="threshold" value="INFO"/>
+      <param name="host" value="udp:graylog_graylog"/>
+      <param name="port" value="12201"/>
+      <param name="version" value="1.1"/>
+      <param name="facility" value="gelf-test"/>
+      <param name="extractStackTrace" value="true"/>
+      <param name="filterStackTrace" value="true"/>
+      <param name="includeLocation" value="true"/>
+      <param name="mdcProfiling" value="true"/>
+      <param name="timestampPattern" value="yyyy-MM-dd HH:mm:ss,SSSS"/>
+      <param name="maximumMessageSize" value="8192"/>
+      <param name="includeFullMdc" value="true"/>
+
+      <param name="additionalFields" value="APP=utils-monitoring-application,ENV=devgcp"/>
+      <param name="additionalFieldTypes" value="APP=String,ENV=String"/>
+    </appender>
+
+    <logger level="DEBUG" name="org.wannago"/>
+
+    <root level="INFO">
+      <appender-ref ref="CONSOLE"/>
+      <appender-ref ref="GELF"/>
+    </root>
+  </springProfile>
+
+  <springProfile name="devlocal">
+    <appender name="GELF" class="biz.paluch.logging.gelf.logback.GelfLogbackAppender">
+      <param name="threshold" value="INFO"/>
+      <param name="host" value="udp:35.205.108.185"/>
+      <param name="port" value="12201"/>
+      <param name="version" value="1.1"/>
+      <param name="facility" value="gelf-test"/>
+      <param name="extractStackTrace" value="true"/>
+      <param name="filterStackTrace" value="true"/>
+      <param name="includeLocation" value="true"/>
+      <param name="mdcProfiling" value="true"/>
+      <param name="timestampPattern" value="yyyy-MM-dd HH:mm:ss,SSSS"/>
+      <param name="maximumMessageSize" value="8192"/>
+      <param name="includeFullMdc" value="true"/>
+
+      <param name="additionalFields" value="APP=utils-monitoring-application,ENV=devlocal"/>
+      <param name="additionalFieldTypes" value="APP=String,ENV=String"/>
+    </appender>
+
+    <logger level="DEBUG" name="org.wannago"/>
+
+    <root level="INFO">
+      <appender-ref ref="CONSOLE"/>
+      <appender-ref ref="GELF"/>
+    </root>
+  </springProfile>
+
+  <logger level="INFO" name="org.springframework"/>
+</configuration>
