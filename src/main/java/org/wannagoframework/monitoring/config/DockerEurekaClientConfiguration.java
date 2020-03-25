@@ -41,8 +41,10 @@ import org.springframework.context.annotation.Primary;
 import org.springframework.context.annotation.Profile;
 import org.springframework.core.env.ConfigurableEnvironment;
 import org.springframework.util.StringUtils;
+import org.wannagoframework.commons.utils.SpringProfileConstants;
 
-@Profile("devgcp")
+@Profile({SpringProfileConstants.SPRING_PROFILE_STAGING,
+    SpringProfileConstants.SPRING_PROFILE_PRODUCTION})
 @Configuration
 public class DockerEurekaClientConfiguration implements
     HasLogger {
