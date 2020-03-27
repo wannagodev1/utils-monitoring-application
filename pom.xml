@@ -52,7 +52,7 @@
 
       <spring-boot-admin.version>2.2.2</spring-boot-admin.version>
 
-      <javamelody.version>1.81.0</javamelody.version>
+      <javamelody.version>1.82.0</javamelody.version>
 
       <logstash-gelf.version>1.14.0</logstash-gelf.version>
     </properties>
