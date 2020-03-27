@@ -1,14 +1,16 @@
-FROM openjdk:8-jre-alpine
+FROM openjdk:12-jdk-oracle
 
 MAINTAINER Wannago Dev1 <Wannago.dev1@gmail.com>
 
-RUN apk --no-cache add curl
+RUN yum update -y && \
+    yum clean all
 
 ENV JAVA_OPTS=""
+ENV APP_OPTS=""
 
 ADD target/utils-monitoring-application.jar /app/
 
-ENTRYPOINT [ "sh", "-c", "java $JAVA_OPTS -Djava.security.egd=file:/dev/./urandom -jar /app/utils-monitoring-application.jar"]
+ENTRYPOINT [ "sh", "-c", "java $JAVA_OPTS -Djava.security.egd=file:/dev/./urandom -jar /app/utils-monitoring-application.jar $APP_OPTS"]
 
 HEALTHCHECK --interval=30s --timeout=30s --retries=10 CMD curl -f http://localhost:9101/actuator/health || exit 1
 
