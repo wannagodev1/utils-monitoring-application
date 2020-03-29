@@ -30,7 +30,7 @@
     </root>
   </springProfile>
 
-  <springProfile name="devlocal">
+  <springProfile name="local,eureka">
     <appender name="GELF" class="biz.paluch.logging.gelf.logback.GelfLogbackAppender">
       <param name="threshold" value="INFO"/>
       <param name="host" value="udp:35.205.108.185"/>
