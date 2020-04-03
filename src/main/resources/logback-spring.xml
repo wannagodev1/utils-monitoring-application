@@ -3,6 +3,9 @@
 <configuration>
   <include resource="org/springframework/boot/logging/logback/base.xml"/>
 
+  <springProperty scope="context" name="appName" source="spring.application.name"/>
+  <springProperty scope="context" name="env" source="info.tags.environment"/>
+
   <appender name="GELF" class="biz.paluch.logging.gelf.logback.GelfLogbackAppender">
     <param name="threshold" value="INFO"/>
     <param name="host" value="udp:graylog_graylog"/>
@@ -17,7 +20,7 @@
     <param name="maximumMessageSize" value="8192"/>
     <param name="includeFullMdc" value="true"/>
 
-    <param name="additionalFields" value="APP=${spring.application.name},ENV=${info.tags.environment}"/>
+    <param name="additionalFields" value="APP=${appName},ENV=${env}"/>
     <param name="additionalFieldTypes" value="APP=String,ENV=String"/>
   </appender>
 
