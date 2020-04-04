@@ -1,6 +1,12 @@
 name: Java CI
 
-on: [push]
+on:
+  push:
+  repository_dispatch:
+    types: [shared-commons-build]
+
+env:
+  IMAGE_NAME: utils-monitoring-application
 
 jobs:
   build:
@@ -21,3 +27,31 @@ jobs:
           ${{ runner.os }}-maven-
     - name: Build with Maven
       run: mvn -Dmaven.test.skip -s .settings.xml -Dmaven.javadoc.skip -Dossrh_username=${{secrets.ossrh_username}} -Dossrh_password=${{secrets.ossrh_password}} --file pom.xml deploy
+
+    - name: Build Docker Image
+      run: docker build . --file Dockerfile --tag image
+
+    - name: Log into Docker Hub Registry
+      run: echo "${{ secrets.dockerhub_password }}" | docker login --username wannagodev1  --password-stdin
+
+    - name: Push image to Docker Hub Registry
+      run: |
+        IMAGE_ID=wannagoframework/$IMAGE_NAME
+
+        # Change all uppercase to lowercase
+        IMAGE_ID=$(echo $IMAGE_ID | tr '[A-Z]' '[a-z]')
+
+        # Strip git ref prefix from version
+        VERSION=$(echo "${{ github.ref }}" | sed -e 's,.*/\(.*\),\1,')
+
+        # Strip "v" prefix from tag name
+        [[ "${{ github.ref }}" == "refs/tags/"* ]] && VERSION=$(echo $VERSION | sed -e 's/^v//')
+
+        # Use Docker `latest` tag convention
+        [ "$VERSION" == "master" ] && VERSION=latest
+
+        echo IMAGE_ID=$IMAGE_ID
+        echo VERSION=$VERSION
+
+        docker tag image $IMAGE_ID:$VERSION
+        docker push $IMAGE_ID:$VERSION
