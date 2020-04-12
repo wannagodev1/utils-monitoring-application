@@ -1,4 +1,4 @@
-FROM openjdk:12-jdk-oracle
+FROM openjdk:14-jdk-oracle
 
 MAINTAINER Wannago Dev1 <Wannago.dev1@gmail.com>
 
